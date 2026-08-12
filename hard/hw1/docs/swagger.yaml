@@ -1,0 +1,165 @@
+basePath: /
+definitions:
+  types.ObjectTypeResultHandlerResponse:
+    properties:
+      result:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: Handlers для создания/поиска user/task
+  title: Rest API для обработки users и tasks
+  version: "1.0"
+paths:
+  /login:
+    post:
+      description: Залогиниться на сайте и получить id сессии
+      parameters:
+      - description: username и password
+        in: body
+        name: User_body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ObjectTypeResultHandlerResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+      summary: Авторизация
+      tags:
+      - user
+  /register:
+    post:
+      description: Зарегаться на сайте
+      parameters:
+      - description: username и password
+        in: body
+        name: User_body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ObjectTypeResultHandlerResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: User not found
+          schema:
+            type: string
+      summary: Регистрация
+      tags:
+      - user
+  /result/{task_id}:
+    get:
+      description: Получить результат таски по task_id
+      parameters:
+      - description: task id который получен от сервера
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Bearer {auth_token}
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ObjectTypeResultHandlerResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: Task not found
+          schema:
+            type: string
+      summary: Получить результат таски
+      tags:
+      - Таска
+  /status/{task_id}:
+    get:
+      description: Получить статус таски по task_id
+      parameters:
+      - description: task id который получен от сервера
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Bearer {auth_token}
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ObjectTypeResultHandlerResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: Task not found
+          schema:
+            type: string
+      summary: Готовность таски
+      tags:
+      - Таска
+  /task:
+    post:
+      description: Отправить таску на обработку
+      parameters:
+      - description: Таска которую нужно решить в string формате
+        in: body
+        name: task_body
+        required: true
+        schema:
+          type: string
+      - description: Bearer {auth_token}
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.ObjectTypeResultHandlerResponse'
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "404":
+          description: Task not found
+          schema:
+            type: string
+      summary: Отправить таску на обработку
+      tags:
+      - Таска
+swagger: "2.0"
